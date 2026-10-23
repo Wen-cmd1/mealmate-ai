@@ -1,36 +1,207 @@
-# MealMate AI · 饭搭子 AI
+# 饭搭子 AI · MealMate AI
 
-面向大学生与年轻人的 AI 饮食决策与预算管理系统（参赛版本）。
-通过**麦当劳官方 MCP**（Streamable HTTP）获取真实门店、真实菜单与**官方算价**，未来可扩展其他餐饮数据源。
+**基于麦当劳 MCP 真实菜单与官方算价的智能餐饮决策及预算管理助手**
 
-> **当前进度：任务 007 —— 参赛合规整改与 GitHub 发布准备（v0.5.0，功能冻结，五道门禁全绿）。**
-> 已完成：单餐推荐（门店/菜单/角色分类/三方案/逐个官方算价核验）＋ 长期预算（周期预算、消费账本、
-> Meal Impact 单笔影响预测、剩余预算驱动推荐、本地持久化）＋ AI 决策
-> （一句话 → 意图解析 → Zod 校验 → 真实菜单 → 三方案 → 预算影响）＋ 视觉与交互重设计
-> （珊瑚橙品牌体系、首选/备选信息层级、移动端 360~430 适配、`/demo` 演示模式）
-> ＋ 发布审计（凭证零泄露、忽略规则修复、依赖许可盘点、门禁逐项复核）
-> ＋ **参赛合规整改**（赛事必需文件齐备、本地首次提交、三段可复现演示脚本）。
-> 未做：登录与数据库、真实下单、领券核销、支付、跨设备同步。
-> **注意：当前部署未配置 `AI_API_KEY`，意图解析运行在「规则降级模式」，页面与接口都会明确标注。**
-> **发布状态：已公开发布，并已完成参赛报名。**
-> 代码已推送至 GitHub（MIT，版权主体 `Wen-cmd1`），报名 Issue
-> [#1125](https://github.com/M-China/mcd-developer-innovation-challenge/issues/1125)
-> 已于 2026-10-23 16:59（北京时间）获官方回复「您的作品已成功参赛」。
-> 仍未验证：配置真实 `AI_API_KEY` 后的大模型解析与 UI 回归；
-> 当前 Star 数为 0，按官方规则暂不进入排行榜。
-> 交付报告：[`docs/02-recommendation-report.md`](docs/02-recommendation-report.md)、
-> [`docs/03-budget-report.md`](docs/03-budget-report.md)、
-> [`docs/04-ai-agent-report.md`](docs/04-ai-agent-report.md)、
-> [`docs/05-ui-report.md`](docs/05-ui-report.md)、
-> [`docs/06-release-audit.md`](docs/06-release-audit.md)、
-> [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md)、
-> [`docs/08-publish-checklist.md`](docs/08-publish-checklist.md)、
-> [`docs/09-publish-report.md`](docs/09-publish-report.md)、
-> [`docs/10-registration-report.md`](docs/10-registration-report.md)。
+一句话问「今天吃什么」，它去查真实门店菜单、用官方接口逐份核价，给出三份**预算内**的方案，
+并算出这笔钱花掉之后，这个月每天还剩多少。
+
+| 参赛状态 | 开源许可 | 数据来源 | 当前运行模式 |
+|---|---|---|---|
+| ✅ 报名成功<br>[Issue #1125](https://github.com/M-China/mcd-developer-innovation-challenge/issues/1125) | **MIT**<br>© 2026 Wen-cmd1 | 麦当劳官方 MCP<br>三个只读工具 | 规则解析模式<br>（未配置 `AI_API_KEY`） |
+
+> **两条边界，先说清楚**
+>
+> 1. **大模型未启用**：本仓库未配置 `AI_API_KEY`，意图解析运行在**规则模式**（`mode: "RULE_FALLBACK"`），
+>    页面与接口都会明确标注，不冒充大模型的语义理解能力。配置密钥后会自动切换，但**真实 LLM 回归尚未验证**。
+> 2. **没有在线演示站**：本项目**未部署**公开可访问的 Web 站点。想看实际界面请按「快速开始」本地运行，
+>    或直接看下面的截图与 `/demo` 冻结快照。
 
 ---
 
-## 参赛文件索引
+## 它解决的三个问题
+
+| 你会问 | 它替你算 | 凭什么可信 |
+|---|---|---|
+| **今天吃什么？** | 一句话给三个方向：省钱 / 均衡 / 满足 | 候选来自真实菜单，逐份走官方 `calculate-price` 核价，不是估算 |
+| **预算够不够？** | 硬上限内的完整正餐，超了就剔除换下一个 | 你说的金额是硬约束；候选不足时返回实际数量，**不凑数** |
+| **花完还剩多少？** | 这笔钱扣掉后，后续每天还能花多少（Meal Impact） | 金额全程整数「分」结算，先给结论再说前提 |
+
+第三个问题是多数点餐工具不做的：预算真正吃紧的人关心的不是「这一单多少钱」，
+而是「这顿吃完，后面几天怎么过」。Meal Impact 就是把单笔消费放回周期预算里重新算一遍。
+
+---
+
+## 产品截图
+
+全部由无头 Chrome 对**实际运行页面**截图，不是设计稿、不是示意图。
+截图里的价格是某次真实查询的结果，换门店、换时段都会变。
+
+| 首页：一句话提问 | 决策结果：三份方案 + 官方核价 |
+|---|---|
+| <img src="docs/screenshots/005-home-desktop-1440.png" width="470"> | <img src="docs/screenshots/005-decide-desktop-1440.png" width="470"> |
+| **长期预算：概览 + Meal Impact** | **移动端 390 宽** |
+| <img src="docs/screenshots/005-budget-impact-desktop-1440.png" width="470"> | <img src="docs/screenshots/005-home-mobile-390.png" width="470"> |
+
+注意结果页右上角的徽标是「**规则解析（未接入大模型）**」——这是当前真实状态，没有隐藏。
+全部截图清单见[文末](#全部截图清单)。
+
+---
+
+## 典型使用场景
+
+### 场景一｜中午只有 25 元，想吃鸡肉，不要太辣
+
+输入（截图中的真实输入）：
+
+> 今天只有 25 元，想吃鸡肉，不要太辣。
+
+系统回「**我理解到的需求**」：午餐 · 预算上限 ¥25.00（你说的）· 目标 均衡选择 · 单点 鸡肉 · 排除 辣（**已过滤**）。
+
+然后给三份方案，每份都带官方算价和「扣掉后还剩」。最关键是最后那条：
+`不吃辣` 在**过滤阶段**就剔除了，被排除的餐品连算价请求都不会发起——不是"只降几分"的软处理。
+
+### 场景二｜这个月还剩七百多，还有 10 天
+
+打开 `/budget`：建议单餐预算 ¥25.00、后续日均可用 ¥77.54、
+消费进度 8% 对照时间进度 71%——**钱花得比时间慢**，这比单看余额有用。
+
+往下是 Meal Impact：填 ¥78，它告诉你「吃之前日均 ¥77.54 → 吃之后日均 ¥77.49」。
+再点「查看推荐」拿真实方案，选择「记为已消费」并确认实付金额，才真正写进账本。
+
+### 场景三｜只想看看它长什么样，手上没有 token
+
+打开 `/demo`：一次真实查询的**冻结快照**，不联网、不需要任何凭证。
+页面顶部有「演示数据 · 不是实时查询」横幅，与真实模式物理隔离——真实模式出错也不会回退到它。
+
+---
+
+## 三大能力
+
+### 1. 一句话点餐决策（`/`）
+
+```text
+自然语言（≤500 字）
+  → 注入检测 → 意图解析（规则 / LLM 可缺省）→ 预算裁决（只能下调）
+  → 真实菜单 → 角色分类与确定性排除 → 候选构造
+  → 逐个 calculate-price 核价 → 三方案 → 预算影响
+```
+
+### 2. 周期餐饮预算管理（`/budget`）
+
+预算计划（总额 / 预留 / 周期 / 时区 / 每日餐次）→ 账本（`planned` 不扣预算，`confirmed` 才扣）
+→ 概览（已花、剩余、可支配、剩几天、日均、消费进度 vs 时间进度）。
+**推荐结果绝不自动进账本**，扣预算必须由你显式确认。
+
+### 3. Meal Impact 消费影响预测
+
+```text
+消费前日均 = 可支配(剩余 - 预留) / 剩余天数
+消费后余额 = 剩余 - 本次消费 - 今天其它餐费
+消费后日均 = 消费后可支配 / (本次覆盖今天 ? 剩余天数-1 : 剩余天数)
+```
+
+消费低于原日均时，日均会"反向上升"（同样的钱摊到更少天数）——这是平摊模型的算术结果，界面有说明。
+
+数据只存在浏览器 `localStorage`：**没有云同步、没有账号体系、不上传**。
+
+---
+
+## 技术可信度
+
+### 真实使用的三个麦当劳 MCP 工具（全只读）
+
+| 工具 | 用途 | 调用条件 |
+|---|---|---|
+| `query-nearby-stores` | 城市 + 商圈关键词 → 真实门店 | 可选，已有 `storeCode` 时跳过 |
+| `query-meals` | 门店 → 真实菜单与标价 | 必需 |
+| `calculate-price` | 逐个组合 → **官方算价** | 必需，结论只认它 |
+
+不调用任何写操作：不下单、不支付、不领券、不核销。完整契约与一次真实调用记录见
+[`MCP_INTEGRATION.md`](MCP_INTEGRATION.md)。
+
+### 最近一次已验证的质量门禁
+
+| 门禁 | 命令 | 最近结果 |
+|---|---|---|
+| 类型检查 | `npm run typecheck` | 通过 |
+| 单元测试 | `npm run test:unit` | **474 / 474** 通过（27 个文件） |
+| 真实 MCP 集成 | `npm run test:integration` | **26 通过 / 3 条件跳过** |
+| 浏览器 E2E | `node ../_e2e-005.mjs` | **69 PASS / 0 FAIL** |
+| 生产构建 | `npm run build` | 通过 |
+
+跳过的 3 项是「未配置 token」时的占位断言，**不把未执行算作通过**。明细见[测试](#测试)一节。
+
+其中 474 项单元测试与 26/3 集成测试于 2026-10-23（任务 011）复跑复现；
+69 项 E2E 沿用任务 006 的实测记录，本次未重跑（需另起生产服务并用 CDP 驱动本机 Chrome）。
+
+### 四条不越过的边界
+
+1. **模型不产出数据**：`ParsedIntent` 里没有价格、菜品、优惠券、营养字段，模型想编也没地方放。
+2. **说不准就说不准**：上游没有配料表，`不吃辣` 只能剔除名称含「辣」的餐品，每次都附免责说明，
+   从不宣称「绝对不含」。
+3. **推荐不自动记账**：扣预算必须用户显式确认实付金额，AI 侧没有任何账本写入函数。
+4. **营养不参与判断**：营养数据与菜单 SKU 无可靠公共键，`nutrition` 恒为 `null`；
+   「均衡」只代表价格与组成的折中，**不代表营养均衡**。
+
+---
+
+## 快速开始
+
+```bash
+git clone https://github.com/Wen-cmd1/mealmate-ai.git
+cd mealmate-ai
+
+npm install
+
+# 配置环境变量（真实 token 只放本地，已被 .gitignore 覆盖）
+cp .env.example .env.local
+#   编辑 .env.local，填入 MCD_MCP_TOKEN
+#   可选：填 AI_API_KEY / AI_BASE_URL / AI_MODEL 启用大模型解析（留空则规则降级）
+
+npm run dev               # http://localhost:3000
+
+# 质量门禁
+npm run typecheck         # next typegen + tsc --noEmit
+npm run test:unit         # 单元测试（不联网，474 项）
+npm run test:integration  # 真实 MCP（需要 token）
+npm run build             # 生产构建
+npm run verify            # typecheck + 单测 + build
+```
+
+- `/` —— **一句话决策**：输入「今天只有 25 元，想吃鸡肉，不要太辣」→ AI 解析意图 →
+  真实菜单 + 官方算价 → 三个方案 + 预算影响；下方保留原有的「直接给预算」入口。
+- `/budget` —— **长期预算**：建周期预算（默认 ¥900/月）→ 记一笔 / 从推荐记一笔 →
+  看剩余预算、后续日均、Meal Impact，并用剩余预算 + 口味偏好去查真实菜单。
+  数据存在浏览器 localStorage，没有云端同步（界面已明确提示）。
+- `/demo` —— **演示模式**：没有凭证也能看到完整结果界面。数据是**一次真实查询的冻结快照**，
+  全程标注「演示数据」，不发起任何网络请求；真实模式失败时不会自动回退到这里。
+
+---
+
+## 开发者文档
+
+| 文档 | 内容 |
+|---|---|
+| [`MCP_INTEGRATION.md`](MCP_INTEGRATION.md) | 三个 MCP 工具的真实契约、调用链、一次真实 trace、限制说明 |
+| [`mcp-config.example.json`](mcp-config.example.json) | 脱敏 MCP 配置示例，全部为 `${VAR}` 占位符 |
+| [`docs/01-mcp-integration.md`](docs/01-mcp-integration.md) | MCP 字段映射与归一化细节 |
+| [`docs/02-recommendation-report.md`](docs/02-recommendation-report.md) | 单餐推荐交付报告（分类 / 候选 / 评分 / 核价） |
+| [`docs/03-budget-report.md`](docs/03-budget-report.md) | 长期预算交付报告（周期 / 账本 / Meal Impact） |
+| [`docs/04-ai-agent-report.md`](docs/04-ai-agent-report.md) | AI 决策交付报告（意图 / 裁决 / 降级 / 安全边界） |
+| [`docs/05-ui-report.md`](docs/05-ui-report.md) | 视觉与交互报告（设计令牌 / 断点 / 演示模式） |
+| [`docs/06-release-audit.md`](docs/06-release-audit.md) | 发布审计（凭证零泄露 / 忽略规则 / 依赖许可 / 门禁） |
+| [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md) | 参赛合规自查 |
+| [`docs/08-publish-checklist.md`](docs/08-publish-checklist.md) | 发布审核清单 |
+| [`docs/09-publish-report.md`](docs/09-publish-report.md) | 正式发布报告（推送与远端验收） |
+| [`docs/10-registration-report.md`](docs/10-registration-report.md) | 报名报告（Issue #1125 与官方回复） |
+| [`docs/11-showcase-report.md`](docs/11-showcase-report.md) | 展示优化报告（本次 README 与展示素材） |
+| [`docs/decisions.md`](docs/decisions.md) | 架构决策记录（ADR） |
+| [`docs/showcase/`](docs/showcase/) | 评选展示素材：项目介绍、演示脚本、分享文案、自检清单 |
+| [`workbuddy.md`](workbuddy.md) | WorkBuddy 开发过程记录（专项奖励核验用） |
+
+---
+
+## 参赛材料
 
 本项目为「麦当劳程序员创意开发大赛」参赛作品，按官方要求提供以下文件：
 
@@ -81,7 +252,7 @@
 
 ---
 
-## 使用示例
+## 使用示例（真实运行结果）
 
 以下为**真实运行结果**，不是示意图。抓取时间 2026-10-22 上午，门店
 「麦当劳广州天源路餐厅（1400359）」，数据源 `mcd-mcp`，`traceId 79ee25c0…`。
@@ -109,7 +280,7 @@
 
 ---
 
-## 视觉规范（任务 005）
+## 视觉规范
 
 | 项 | 取值 | 说明 |
 |---|---|---|
@@ -126,10 +297,7 @@
 
 ---
 
-## 截图与演示
-
-**演示入口 `/demo`**：用一次真实查询的冻结快照展示完整结果页。**不需要任何凭证**、不发起网络请求，
-页面顶部有醒目的「演示数据 · 不是实时查询」横幅，与真实模式物理隔离（真实模式出错也不会回退到它）。
+## 全部截图清单
 
 以下截图全部来自实际运行的页面（无头 Chrome 实拍，非设计稿）：
 
@@ -158,39 +326,6 @@
 | Vitest | 5.0.5 | 单元 + 集成测试 |
 | Zod | 4.6.7 | 请求参数校验（任务 002 新增） |
 | LLM Provider | 自研抽象（OpenAI 兼容） | 任务 004 新增，**不绑定供应商**；未配置时自动降级 |
-
----
-
-## 快速开始
-
-```bash
-git clone https://github.com/Wen-cmd1/mealmate-ai.git
-cd mealmate-ai
-
-npm install
-
-# 配置环境变量（真实 token 只放本地，已被 .gitignore 覆盖）
-cp .env.example .env.local
-#   编辑 .env.local，填入 MCD_MCP_TOKEN
-#   可选：填 AI_API_KEY / AI_BASE_URL / AI_MODEL 启用大模型解析（留空则规则降级）
-
-npm run dev               # http://localhost:3000
-
-# 质量门禁
-npm run typecheck         # next typegen + tsc --noEmit
-npm run test:unit         # 单元测试（不联网，474 项）
-npm run test:integration  # 真实 MCP（需要 token）
-npm run build             # 生产构建
-npm run verify            # typecheck + 单测 + build
-```
-
-- `/` —— **一句话决策**：输入「今天只有 25 元，想吃鸡肉，不要太辣」→ AI 解析意图 →
-  真实菜单 + 官方算价 → 三个方案 + 预算影响；下方保留原有的「直接给预算」入口。
-- `/budget` —— **长期预算**：建周期预算（默认 ¥900/月）→ 记一笔 / 从推荐记一笔 →
-  看剩余预算、后续日均、Meal Impact，并用剩余预算 + 口味偏好去查真实菜单。
-  数据存在浏览器 localStorage，没有云端同步（界面已明确提示）。
-- `/demo` —— **演示模式**：没有凭证也能看到完整结果界面。数据是**一次真实查询的冻结快照**，
-  全程标注「演示数据」，不发起任何网络请求；真实模式失败时不会自动回退到这里。
 
 ---
 
@@ -352,7 +487,7 @@ mealmate-ai/
 
 ---
 
-## AI 决策是怎么走的（任务 004）
+## AI 决策是怎么走的
 
 一句话：**大模型只负责"听懂"，确定性代码负责"算清"，MCP 负责"真实"。**
 
@@ -475,7 +610,7 @@ curl -s -X POST http://localhost:3000/api/ai/decide \
 | `storeCode` | **是** | 3~12 位数字 |
 | `orderType` / `beType` | 否（默认 1） | 本期只支持 1（到店自提），其他值直接 400 |
 | `preferences` | 否 | 白名单：汉堡 / 鸡肉 / 牛肉 / 鱼 / 辣 |
-| `avoidTags` | 否 | 白名单：汉堡 / 鸡肉 / 牛肉 / 猪肉 / 鱼 / 辣。**确定性排除**（任务 004 新增，可选，向后兼容） |
+| `avoidTags` | 否 | 白名单：汉堡 / 鸡肉 / 牛肉 / 猪肉 / 鱼 / 辣。**确定性排除**（可选，向后兼容） |
 | `excludeCategories` | 否 | 按分类名排除（包含匹配） |
 | `maxResults` | 否 | 1~3 |
 
