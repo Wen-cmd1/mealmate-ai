@@ -2,6 +2,13 @@
   "name": "mealmate-ai",
   "version": "0.5.0",
   "private": true,
+  "description": "饭搭子 AI：基于麦当劳 MCP 真实菜单与官方价格核验的智能点餐推荐及餐饮预算管理助手",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wen-cmd1/mealmate-ai.git"
+  },
+  "homepage": "https://github.com/Wen-cmd1/mealmate-ai#readme",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

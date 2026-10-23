@@ -100,12 +100,12 @@
 
 | 项 | 值 |
 |---|---|
-| 首次提交 | `54d5143`（本地，未推送） |
+| 首次提交 | `b11b778`（本地，未推送；作者已于 2026-10-23 修正，原 hash `54d5143` 已失效） |
 | 纳入文件 | **162** 个 |
 | 总体积 | **7.24 MB** |
 | 最大单文件 | `docs/screenshots/005-budget-recorded-desktop-1440.png` 0.39 MB |
 | 分支 | `main` |
-| 远端 | **0 个**（未创建） |
+| 远端 | `origin` → `https://github.com/Wen-cmd1/mealmate-ai.git`（公开空仓库，2026-10-23 创建） |
 
 目录分布：`docs/` 39 · `tests/` 38 · `lib/` 33 · `components/` 19 · `app/` 10 · `public/` 5 · 根目录合规文件 6 · 其余配置 12。
 
@@ -317,6 +317,11 @@ Copyright (c) 2026 [COPYRIGHT HOLDER]
 | **P2** | `CONTEST_DECLARATION.md` 未经官方文件字节级覆盖 | 极小概率存在字符差异 | 工程侧 | 推送前用官方文件覆盖一次并 diff |
 | **P2** | `package.json` 保留 `"private": true` | 仅防误发 npm，不影响 GitHub 公开 | — | 可保留，无需处理 |
 | **P3** | 截图合计约 6 MB | 仓库体积偏大但可接受 | — | 无需处理 |
+
+> **状态更新（2026-10-23）**：上表 3 项 P0 中，**「提交作者占位」「远端未创建」已解决**，
+> **「`CONTEST_DECLARATION.md` 未经字节级核对」（原 P2）已完成**（SHA256 与官方原文一致）。
+> **「`LICENSE` 版权主体」仍待项目所有者提供**，是当前唯一阻塞发布的事项。
+> 最新状态见 [`docs/08-publish-checklist.md`](08-publish-checklist.md)。
 
 ### 8.1 关于 Star 的特别说明
 
