@@ -12,14 +12,21 @@
 > ＋ **参赛合规整改**（赛事必需文件齐备、本地首次提交、三段可复现演示脚本）。
 > 未做：登录与数据库、真实下单、领券核销、支付、跨设备同步。
 > **注意：当前部署未配置 `AI_API_KEY`，意图解析运行在「规则降级模式」，页面与接口都会明确标注。**
-> **发布状态：有条件可发布** —— 待确认许可证版权主体、真实大模型验收、推送与报名，详见
-> [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md)。
+> **发布状态：已公开发布，并已完成参赛报名。**
+> 代码已推送至 GitHub（MIT，版权主体 `Wen-cmd1`），报名 Issue
+> [#1125](https://github.com/M-China/mcd-developer-innovation-challenge/issues/1125)
+> 已于 2026-10-23 16:59（北京时间）获官方回复「您的作品已成功参赛」。
+> 仍未验证：配置真实 `AI_API_KEY` 后的大模型解析与 UI 回归；
+> 当前 Star 数为 0，按官方规则暂不进入排行榜。
 > 交付报告：[`docs/02-recommendation-report.md`](docs/02-recommendation-report.md)、
 > [`docs/03-budget-report.md`](docs/03-budget-report.md)、
 > [`docs/04-ai-agent-report.md`](docs/04-ai-agent-report.md)、
 > [`docs/05-ui-report.md`](docs/05-ui-report.md)、
 > [`docs/06-release-audit.md`](docs/06-release-audit.md)、
-> [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md)。
+> [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md)、
+> [`docs/08-publish-checklist.md`](docs/08-publish-checklist.md)、
+> [`docs/09-publish-report.md`](docs/09-publish-report.md)、
+> [`docs/10-registration-report.md`](docs/10-registration-report.md)。
 
 ---
 
