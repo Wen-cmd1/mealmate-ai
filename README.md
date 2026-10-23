@@ -3,21 +3,41 @@
 面向大学生与年轻人的 AI 饮食决策与预算管理系统（参赛版本）。
 通过**麦当劳官方 MCP**（Streamable HTTP）获取真实门店、真实菜单与**官方算价**，未来可扩展其他餐饮数据源。
 
-> **当前进度：任务 006 —— 发布审计与开源准备（v0.5.0，功能冻结，五道门禁全绿）。**
+> **当前进度：任务 007 —— 参赛合规整改与 GitHub 发布准备（v0.5.0，功能冻结，五道门禁全绿）。**
 > 已完成：单餐推荐（门店/菜单/角色分类/三方案/逐个官方算价核验）＋ 长期预算（周期预算、消费账本、
 > Meal Impact 单笔影响预测、剩余预算驱动推荐、本地持久化）＋ AI 决策
 > （一句话 → 意图解析 → Zod 校验 → 真实菜单 → 三方案 → 预算影响）＋ 视觉与交互重设计
 > （珊瑚橙品牌体系、首选/备选信息层级、移动端 360~430 适配、`/demo` 演示模式）
-> ＋ **发布审计**（凭证零泄露、忽略规则修复、依赖许可盘点、门禁逐项复核）。
+> ＋ 发布审计（凭证零泄露、忽略规则修复、依赖许可盘点、门禁逐项复核）
+> ＋ **参赛合规整改**（赛事必需文件齐备、本地首次提交、三段可复现演示脚本）。
 > 未做：登录与数据库、真实下单、领券核销、支付、跨设备同步。
 > **注意：当前部署未配置 `AI_API_KEY`，意图解析运行在「规则降级模式」，页面与接口都会明确标注。**
-> **发布状态：有条件可发布** —— 待决定许可证、真实大模型验收、首次提交，详见
-> [`docs/06-release-audit.md`](docs/06-release-audit.md) §8。
+> **发布状态：有条件可发布** —— 待确认许可证版权主体、真实大模型验收、推送与报名，详见
+> [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md)。
 > 交付报告：[`docs/02-recommendation-report.md`](docs/02-recommendation-report.md)、
 > [`docs/03-budget-report.md`](docs/03-budget-report.md)、
 > [`docs/04-ai-agent-report.md`](docs/04-ai-agent-report.md)、
 > [`docs/05-ui-report.md`](docs/05-ui-report.md)、
-> [`docs/06-release-audit.md`](docs/06-release-audit.md)。
+> [`docs/06-release-audit.md`](docs/06-release-audit.md)、
+> [`docs/07-contest-readiness.md`](docs/07-contest-readiness.md)。
+
+---
+
+## 参赛文件索引
+
+本项目为「麦当劳程序员创意开发大赛」参赛作品，按官方要求提供以下文件：
+
+| 文件 | 官方要求 | 本项目情况 |
+|---|---|---|
+| [`README.md`](README.md) | 项目介绍、安装方法、使用示例、目标用户 | 含「目标用户」「使用示例」「快速开始」三节 |
+| [`CONTEST_DECLARATION.md`](CONTEST_DECLARATION.md) | 参赛声明；**内容不可修改** | **逐字使用官方原文**，未增删任何段落 |
+| [`MCP_INTEGRATION.md`](MCP_INTEGRATION.md) | 实际使用的 MCP Server / Tool、调用流程、业务价值 | 三个只读工具的真实契约 + 一次真实调用记录 |
+| [`mcp-config.example.json`](mcp-config.example.json) | 脱敏配置示例，只允许环境变量占位符 | 全部值均为 `${VAR}` 占位符，不含任何令牌 |
+| [`workbuddy.md`](workbuddy.md) | WorkBuddy 对话上下文（参与专项奖励时必交） | 按任务编号的真实过程与调试证据；**不含虚构对话** |
+| [`LICENSE`](LICENSE) | 非官方强制，但开源发布必需 | MIT 候选；版权主体为占位符，**待所有者确认** |
+
+> 赛事要求 `CONTEST_DECLARATION.md` 内容不可改动，因此本项目**不做任何本地化改写**。
+> 如官方后续更新该文件，应以官方版本整体覆盖。
 
 ---
 
