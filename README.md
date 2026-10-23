@@ -34,7 +34,7 @@
 | [`MCP_INTEGRATION.md`](MCP_INTEGRATION.md) | 实际使用的 MCP Server / Tool、调用流程、业务价值 | 三个只读工具的真实契约 + 一次真实调用记录 |
 | [`mcp-config.example.json`](mcp-config.example.json) | 脱敏配置示例，只允许环境变量占位符 | 全部值均为 `${VAR}` 占位符，不含任何令牌 |
 | [`workbuddy.md`](workbuddy.md) | WorkBuddy 对话上下文（参与专项奖励时必交） | 按任务编号的真实过程与调试证据；**不含虚构对话** |
-| [`LICENSE`](LICENSE) | 非官方强制，但开源发布必需 | MIT 候选；版权主体为占位符，**待所有者确认** |
+| [`LICENSE`](LICENSE) | 非官方强制，但开源发布必需 | **MIT**，版权主体 `Wen-cmd1`（2026） |
 
 > 赛事要求 `CONTEST_DECLARATION.md` 内容不可改动，因此本项目**不做任何本地化改写**。
 > 如官方后续更新该文件，应以官方版本整体覆盖。
@@ -157,6 +157,9 @@
 ## 快速开始
 
 ```bash
+git clone https://github.com/Wen-cmd1/mealmate-ai.git
+cd mealmate-ai
+
 npm install
 
 # 配置环境变量（真实 token 只放本地，已被 .gitignore 覆盖）
