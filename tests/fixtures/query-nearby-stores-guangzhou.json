@@ -1,0 +1,132 @@
+{
+ "_note": "真实抓取：mcd-mcp query-nearby-stores，city=广州市 keyword=天河，2026-10-21。",
+ "envelope": {
+  "success": true,
+  "code": 200,
+  "message": "请求成功",
+  "datetime": "2026-10-21 21:03:27",
+  "traceId": "327d3bc62fbaf1b05619afffa25433b1",
+  "data": [
+   {
+    "storeCode": "1400359",
+    "storeName": "麦当劳广州天源路餐厅",
+    "address": "天源路5号",
+    "distance": 134,
+    "businessStatus": true,
+    "businessStartTime": "00:00",
+    "businessEndTime": "23:59",
+    "longitude": 0,
+    "latitude": 0,
+    "reservation": true,
+    "reservationTimeOptions": [
+     {
+      "date": "2026-10-21",
+      "today": true,
+      "reservationOptionText": "夜市(17:14至21:45)，宵夜(22:14至23:59)"
+     },
+     {
+      "date": "2026-10-22",
+      "today": false,
+      "reservationOptionText": "宵夜(00:00至04:45,22:14至23:59)，早餐(05:14至10:15)，午餐(10:44至14:15)，下午茶(14:44至16:45)，夜市(17:14至21:45)"
+     }
+    ]
+   },
+   {
+    "storeCode": "1400211",
+    "storeName": "麦当劳广州长兴路餐厅",
+    "address": "长兴路13号",
+    "distance": 562,
+    "businessStatus": true,
+    "businessStartTime": "00:00",
+    "businessEndTime": "23:59",
+    "longitude": 0,
+    "latitude": 0,
+    "reservation": true,
+    "reservationTimeOptions": [
+     {
+      "date": "2026-10-21",
+      "today": true,
+      "reservationOptionText": "夜市(17:14至21:45)，宵夜(22:14至23:59)"
+     },
+     {
+      "date": "2026-10-22",
+      "today": false,
+      "reservationOptionText": "宵夜(00:00至04:45,22:14至23:59)，早餐(05:14至10:15)，午餐(10:44至14:15)，下午茶(14:44至16:45)，夜市(17:14至21:45)"
+     }
+    ]
+   },
+   {
+    "storeCode": "1400977",
+    "storeName": "麦当劳广州南方医科大餐厅",
+    "address": "沙太南路1023号-1063号南方医科大学二食堂房屋二层自编001号商铺",
+    "distance": 1706,
+    "businessStatus": true,
+    "businessStartTime": "07:00",
+    "businessEndTime": "23:00",
+    "longitude": 0,
+    "latitude": 0,
+    "reservation": true,
+    "reservationTimeOptions": [
+     {
+      "date": "2026-10-21",
+      "today": true,
+      "reservationOptionText": "夜市(17:14至21:45)，宵夜(22:14至22:46)"
+     },
+     {
+      "date": "2026-10-22",
+      "today": false,
+      "reservationOptionText": "早餐(07:14至10:15)，午餐(10:44至14:15)，下午茶(14:44至16:45)，夜市(17:14至21:45)，宵夜(22:14至22:46)"
+     }
+    ]
+   },
+   {
+    "storeCode": "1400714",
+    "storeName": "麦当劳广州广垦天河1号餐厅",
+    "address": "怡新路163号广垦天河1号购物广场一层自编号05之一商铺麦当劳餐厅",
+    "distance": 1808,
+    "businessStatus": true,
+    "businessStartTime": "00:00",
+    "businessEndTime": "23:59",
+    "longitude": 0,
+    "latitude": 0,
+    "reservation": true,
+    "reservationTimeOptions": [
+     {
+      "date": "2026-10-21",
+      "today": true,
+      "reservationOptionText": "夜市(17:14至21:45)，宵夜(22:14至23:59)"
+     },
+     {
+      "date": "2026-10-22",
+      "today": false,
+      "reservationOptionText": "宵夜(00:00至04:45,22:14至23:59)，早餐(05:14至10:15)，午餐(10:44至14:15)，下午茶(14:44至16:45)，夜市(17:14至21:45)"
+     }
+    ]
+   },
+   {
+    "storeCode": "1400257",
+    "storeName": "麦当劳广州燕岭路餐厅",
+    "address": "燕岭路91号新燕大厦首层",
+    "distance": 1813,
+    "businessStatus": true,
+    "businessStartTime": "00:00",
+    "businessEndTime": "23:59",
+    "longitude": 0,
+    "latitude": 0,
+    "reservation": true,
+    "reservationTimeOptions": [
+     {
+      "date": "2026-10-21",
+      "today": true,
+      "reservationOptionText": "夜市(17:14至21:45)，宵夜(22:14至23:59)"
+     },
+     {
+      "date": "2026-10-22",
+      "today": false,
+      "reservationOptionText": "宵夜(00:00至04:45,22:14至23:59)，早餐(05:14至10:15)，午餐(10:44至14:15)，下午茶(14:44至16:45)，夜市(17:14至21:45)"
+     }
+    ]
+   }
+  ]
+ }
+}

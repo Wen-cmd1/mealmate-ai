@@ -1,0 +1,12 @@
+# 统一行尾：仓库内一律 LF，避免 Windows / macOS 协作时产生整文件 diff
+* text=auto eol=lf
+
+# 二进制资产不做行尾转换
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+
+# 锁文件按文本处理，但不在 diff 中折叠
+package-lock.json text eol=lf

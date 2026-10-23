@@ -1,0 +1,38 @@
+{
+ "_note": "真实抓取：mcd-mcp calculate-price，storeCode=1400359，productCode=1440 数量1，2026-10-21。金额单位为分。",
+ "envelope": {
+  "success": true,
+  "code": 200,
+  "message": "请求成功",
+  "datetime": "2026-10-21 21:03:28",
+  "traceId": "239401b17ec905271ef35d81b327e9ca",
+  "data": {
+   "productOriginalPrice": 2250,
+   "productPrice": 2250,
+   "originalPrice": 2250,
+   "discount": 0,
+   "price": 2250,
+   "productList": [
+    {
+     "productCode": "1440",
+     "productName": "麦辣鸡腿汉堡",
+     "quantity": 1,
+     "originalSubtotal": 2250,
+     "subtotal": 2250
+    }
+   ],
+   "takeWayList": [
+    {
+     "code": "eat-in",
+     "title": "堂食",
+     "subtitle": "店内用餐"
+    },
+    {
+     "code": "take-in-store",
+     "title": "外带",
+     "subtitle": "店内自提"
+    }
+   ]
+  }
+ }
+}

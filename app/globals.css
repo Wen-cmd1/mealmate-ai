@@ -1,0 +1,322 @@
+@import "tailwindcss";
+
+/*
+ * 饭搭子 AI 视觉体系（任务 005）
+ *
+ * 关键词：有食欲 / 简洁 / 温暖 / 轻松 / 智能 / 可信。
+ * 主色取**珊瑚橙**（贴近食物暖色但刻意避开麦当劳官方红黄），
+ * 底色用奶油白与暖灰，点缀色是少量薄荷绿（只用于"已核验 / 安全"这类正向信号）。
+ *
+ * 所有颜色都写成 CSS 变量再映射进 Tailwind theme，
+ * 这样组件里只用 `bg-brand-500` / `text-ink-500` 这类语义类名，
+ * 以后换色只改这里，不用全局搜替换。
+ */
+
+:root {
+  /* 主色：珊瑚橙 */
+  --brand-50: #fff5ef;
+  --brand-100: #ffe3d4;
+  --brand-200: #ffc9ae;
+  --brand-300: #fba982;
+  --brand-400: #f78a5b;
+  --brand-500: #f4713f;
+  --brand-600: #de5a2b;
+  --brand-700: #b8481f;
+
+  /* 底色：奶油白 / 暖灰 */
+  --cream: #fffcf8;
+  --cream-deep: #fdf5ec;
+  --line: #efe4d8;
+
+  /* 文字：暖调墨色，比纯黑柔和，避免大面积冷硬感 */
+  --ink-900: #2a211c;
+  --ink-700: #4d4038;
+  --ink-500: #7c6c60;
+  --ink-400: #9d8d80;
+
+  /* 点缀：薄荷绿 */
+  --mint-50: #e9f8f1;
+  --mint-100: #cff0e2;
+  --mint-500: #17a67c;
+  --mint-600: #0f8965;
+
+  /* 克制的阴影：只在卡片与主按钮上使用 */
+  --shadow-card: 0 1px 2px rgba(42, 33, 28, 0.04), 0 10px 30px -18px rgba(42, 33, 28, 0.28);
+  --shadow-pop: 0 2px 4px rgba(42, 33, 28, 0.05), 0 20px 44px -24px rgba(42, 33, 28, 0.38);
+}
+
+@theme inline {
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+
+  --color-cream: var(--cream);
+  --color-cream-deep: var(--cream-deep);
+  --color-line: var(--line);
+
+  --color-ink-900: var(--ink-900);
+  --color-ink-700: var(--ink-700);
+  --color-ink-500: var(--ink-500);
+  --color-ink-400: var(--ink-400);
+
+  --color-mint-50: var(--mint-50);
+  --color-mint-100: var(--mint-100);
+  --color-mint-500: var(--mint-500);
+  --color-mint-600: var(--mint-600);
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    /* 移动端锚点跳转后不被顶部遮住 */
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    background: var(--cream);
+    color: var(--ink-900);
+    font-family: var(--font-sans);
+  }
+
+  ::selection {
+    background: var(--brand-100);
+    color: var(--ink-900);
+  }
+
+  /* 键盘可达性：所有可聚焦元素统一焦点环，鼠标点击不显示 */
+  :focus-visible {
+    outline: 2px solid var(--brand-500);
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+
+  /* 尊重系统的「减少动效」设置 */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /* 主卡片 */
+  .surface {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+  }
+
+  /* 次级容器（表单内分组、数据条） */
+  .surface-muted {
+    background: var(--cream-deep);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+  }
+
+  .eyebrow {
+    font-size: 0.6875rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-400);
+  }
+
+  /* 按钮 */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      transform 0.16s ease,
+      background-color 0.16s ease,
+      border-color 0.16s ease,
+      box-shadow 0.16s ease,
+      color 0.16s ease;
+  }
+
+  .btn:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  .btn-primary {
+    background: linear-gradient(180deg, var(--brand-500) 0%, var(--brand-600) 100%);
+    color: #ffffff;
+    box-shadow: 0 10px 22px -12px rgba(222, 90, 43, 0.9);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    filter: brightness(1.05);
+    box-shadow: 0 12px 26px -12px rgba(222, 90, 43, 1);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .btn-ghost {
+    background: #ffffff;
+    border: 1px solid var(--line);
+    color: var(--ink-700);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    border-color: var(--brand-200);
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  /* 胶囊快捷入口 */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: #ffffff;
+    color: var(--ink-700);
+    padding: 0.45rem 0.85rem;
+    font-size: 0.8125rem;
+    line-height: 1.2;
+    cursor: pointer;
+    transition:
+      border-color 0.16s ease,
+      background-color 0.16s ease,
+      color 0.16s ease;
+  }
+
+  .chip:hover:not(:disabled) {
+    border-color: var(--brand-200);
+    background: var(--brand-50);
+    color: var(--brand-700);
+  }
+
+  .chip:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+  }
+
+  /* 输入控件 */
+  .field {
+    width: 100%;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: #ffffff;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--ink-900);
+    transition:
+      border-color 0.16s ease,
+      box-shadow 0.16s ease;
+  }
+
+  .field::placeholder {
+    color: var(--ink-400);
+  }
+
+  .field:focus {
+    outline: none;
+    border-color: var(--brand-400);
+    box-shadow: 0 0 0 3px rgba(244, 113, 63, 0.16);
+  }
+
+  .field:disabled {
+    background: var(--cream-deep);
+    color: var(--ink-400);
+  }
+
+  /* 数字统一等宽，避免价格跳动 */
+  .num {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------- 动效（克制，只在结果出现时用一次） ---------- */
+
+@keyframes mm-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes mm-shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@keyframes mm-pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+.animate-fade-up {
+  animation: mm-fade-up 0.34s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.skeleton {
+  background-image: linear-gradient(90deg, #f7efe6 25%, #fdf8f2 37%, #f7efe6 63%);
+  background-size: 200% 100%;
+  animation: mm-shimmer 1.5s ease infinite;
+  border-radius: 16px;
+}
+
+.pulse-dot {
+  animation: mm-pulse-dot 1.4s ease-in-out infinite;
+}
+
+/* 首屏暖光：只出现在页面顶部，营造"热腾腾"的氛围，不干扰阅读 */
+.page-glow {
+  position: relative;
+  isolation: isolate;
+}
+
+.page-glow::before {
+  content: "";
+  position: absolute;
+  inset: -8rem 0 auto 0;
+  height: 26rem;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(52% 62% at 18% 0%, rgba(244, 113, 63, 0.16) 0%, rgba(244, 113, 63, 0) 72%),
+    radial-gradient(48% 58% at 82% 6%, rgba(23, 166, 124, 0.1) 0%, rgba(23, 166, 124, 0) 70%);
+}
